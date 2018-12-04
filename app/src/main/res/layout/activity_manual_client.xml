@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ManualClientActivity"
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:id="@+id/serverInfoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/serverIP"
+            android:hint="Server IP address"
+            android:layout_width="0dip"
+            android:layout_weight="0.6"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"/>
+        <EditText
+            android:id="@+id/serverPort"
+            android:hint="Server port"
+            android:layout_width="0dip"
+            android:layout_weight="0.4"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/memoTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/serverInfoPanel"
+        android:hint="Memo title"/>
+    <EditText
+        android:id="@+id/memoContent"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/memoTitle"
+        android:gravity="top"
+        android:hint="Memo content"/>
+    <Spinner
+        android:id="@+id/packetProtocol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/protocol_mode"
+        android:layout_below="@id/memoContent"/>
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Send"
+        android:layout_below="@id/packetProtocol"/>
+    <TextView
+        android:id="@+id/statusLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendButton"/>
+</RelativeLayout>

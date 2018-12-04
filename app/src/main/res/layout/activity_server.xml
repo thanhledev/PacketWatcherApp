@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServerActivity"
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:id="@+id/configurationPanel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <EditText
+            android:id="@+id/serverPort"
+            android:layout_width="0dip"
+            android:layout_weight="0.4"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:hint="Port"/>
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:entries="@array/type_mode" />
+        <Spinner
+            android:id="@+id/protocolSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:entries="@array/protocol_mode" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/configurationPanel"
+        android:layout_marginTop="40dp">
+        <Button
+        android:id="@+id/startButton"
+        android:layout_width="0dip"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
+        android:text="Start"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"/>
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="0dip"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:text="Stop"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:enabled="false"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/serverLog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/buttonPanel"
+        android:enabled="false"
+        android:gravity="top"/>
+</RelativeLayout>

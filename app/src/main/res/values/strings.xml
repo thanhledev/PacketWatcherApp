@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Packet Watcher App</string>
+    <string-array name="protocol_mode">
+        <item>Protocol</item>
+        <item>Tcp</item>
+        <item>Udp</item>
+    </string-array>
+    <string-array name="type_mode">
+        <item>Type</item>
+        <item>Auto</item>
+        <item>Manual</item>
+    </string-array>
+</resources>
