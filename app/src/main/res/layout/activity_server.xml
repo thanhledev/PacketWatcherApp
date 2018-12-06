@@ -35,11 +35,34 @@
             android:entries="@array/protocol_mode" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/serverStatusLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/configurationPanel">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="15dp"
+            android:text="Received"/>
+        <TextView
+            android:id="@+id/receivedPacket"
+            android:layout_width="0dip"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="15dp"
+            android:gravity="left|center"
+            android:text=""/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/buttonPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/configurationPanel"
-        android:layout_marginTop="40dp">
+        android:layout_below="@id/serverStatusLabel"
+        android:layout_marginTop="20dp">
         <Button
         android:id="@+id/startButton"
         android:layout_width="0dip"
@@ -64,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/buttonPanel"
-        android:enabled="false"
-        android:gravity="top"/>
+        android:enabled="true"
+        android:gravity="top"
+        android:scrollbars="vertical" />
 </RelativeLayout>

@@ -29,22 +29,29 @@ public class AndroidTcpServerMultipleRunnable extends TcpSenderRunnable {
 
     @Override
     public void run() {
-        current = Thread.currentThread();
+        try {
+            current = Thread.currentThread();
+            ObjectInputStream inStream = new ObjectInputStream(
+                    new BufferedInputStream(sSocket.getInputStream()));
+            int count = 0;
+            while (true) {
+                try {
+                    // get memo
+                    Memo newMemo = (Memo) inStream.readObject();
+                    if(newMemo.getTitle().equals("quit") || newMemo.getContent().equals("quit")) {
+                        break;
+                    } else {
+                        // update statistics
+                        screenHandler.sendMessage(Message.obtain(screenHandler,
+                                ServerActivity.ServerHandler.UPDATE_RECEIVED,
+                                String.format("%d", count++)));
+                        // update log
+                        screenHandler.sendMessage(Message.obtain(screenHandler,
+                                ServerActivity.ServerHandler.APPEND_LOG, newMemo.printMemo()));
+                    }
 
-        while (true) {
-            try {
-                ObjectInputStream inStream = new ObjectInputStream(
-                        new BufferedInputStream(sSocket.getInputStream()));
-
-                // get memo
-                Memo newMemo = (Memo) inStream.readObject();
-
-                if(newMemo.getTitle().equals("quit") || newMemo.getContent().equals("quit")) {
-                    break;
-                }
-
-                // add to queue
-                synchronized (mQueue) {
+                    // add to queue
+                /*synchronized (mQueue) {
                     while (mQueue.size() == queueSize) {
                         mQueue.wait();
                     }
@@ -52,11 +59,16 @@ public class AndroidTcpServerMultipleRunnable extends TcpSenderRunnable {
                 mQueue.add(newMemo);
                 synchronized (mQueue) {
                     mQueue.notify();
+                }*/
+
+                } catch (ClassNotFoundException | IOException e) {
+                    screenHandler.sendMessage(Message.obtain(screenHandler,
+                            ServerActivity.ServerHandler.APPEND_LOG, "Error:" + e.getMessage()));
                 }
-            } catch (ClassNotFoundException | IOException | InterruptedException e) {
-                screenHandler.sendMessage(Message.obtain(screenHandler,
-                        ServerActivity.ServerHandler.APPEND_LOG, "Error:" + e.getMessage()));
             }
+        } catch (IOException e) {
+            screenHandler.sendMessage(Message.obtain(screenHandler,
+                    ServerActivity.ServerHandler.APPEND_LOG, "Error:" + e.getMessage()));
         }
     }
 

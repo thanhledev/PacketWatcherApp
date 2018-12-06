@@ -51,7 +51,7 @@ public class AndroidUdpServerRunnable extends UdpSenderRunnable {
                             " port: " + serverPort));
 
             current = Thread.currentThread();
-
+            int count = 1;
             try {
                 while (true) {
                     byte[] memoByteArray = new byte[super.PACKET_SIZE];
@@ -62,9 +62,11 @@ public class AndroidUdpServerRunnable extends UdpSenderRunnable {
 
                     // packet to memo
                     Memo newMemo = Lib.arrayToMemo(packet.getData());
-
+                    screenHandler.sendMessage(Message.obtain(screenHandler,
+                            ServerActivity.ServerHandler.UPDATE_RECEIVED,
+                            String.format("%d", ++count)));
                     // add to queue
-                    synchronized (mQueue) {
+                    /*synchronized (mQueue) {
                         while (mQueue.size() == queueSize) {
                             mQueue.wait();
                         }
@@ -72,9 +74,9 @@ public class AndroidUdpServerRunnable extends UdpSenderRunnable {
                     mQueue.add(newMemo);
                     synchronized (mQueue) {
                         mQueue.notify();
-                    }
+                    }*/
                 }
-            } catch (InterruptedException | IOException e) {
+            } catch (IOException e) { // InterruptedException | IOException e
                 screenHandler.sendMessage(Message.obtain(screenHandler,
                         ServerActivity.ServerHandler.APPEND_LOG, "Error:" + e.getMessage()));
             }

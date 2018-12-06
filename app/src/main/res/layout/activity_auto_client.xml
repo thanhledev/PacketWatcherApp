@@ -20,7 +20,8 @@
             android:layout_weight="0.6"
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:text="192.168.1.64"/>
         <EditText
             android:id="@+id/autoServerPort"
             android:hint="Server port"
@@ -28,7 +29,8 @@
             android:layout_weight="0.4"
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:text="11000"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/autoInfoPanel"
@@ -44,20 +46,65 @@
             android:layout_below="@id/serverInfoPanel"/>
         <EditText
             android:id="@+id/autoSendingPacket"
-            android:hint="Packets sent"
+            android:hint="Total packets"
             android:layout_width="0dip"
             android:layout_weight="0.4"
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:text="50000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/statusPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/autoInfoPanel">
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="20dp"
+            android:text="Sent"/>
+        <TextView
+            android:id="@+id/totalPacketSent"
+            android:layout_width="0dip"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="15dp"
+            android:gravity="left|center"
+            android:text=""/>
+        <TextView
+            android:hint="Remain"
+            android:layout_width="0dip"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="20dp"
+            android:text="Remain"/>
+        <TextView
+            android:id="@+id/totalRemainPacket"
+            android:layout_width="0dip"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="15dp"
+            android:gravity="left|center"
+            android:text=""/>
     </LinearLayout>
     <Button
         android:id="@+id/autoSendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Send"
-        android:layout_below="@id/autoInfoPanel"/>
+        android:layout_below="@id/statusPanel"/>
     <TextView
         android:id="@+id/autoStatusLabel"
         android:layout_width="match_parent"

@@ -30,16 +30,22 @@ public class AndroidTcpServerSingleRunnable extends TcpSenderRunnable {
     @Override
     public void run() {
         current = Thread.currentThread();
-
+        int count = 1;
         try {
             ObjectInputStream inStream = new ObjectInputStream(
                     new BufferedInputStream(sSocket.getInputStream()));
 
             // get memo
             Memo newMemo = (Memo) inStream.readObject();
-
+            // update statistics
+            screenHandler.sendMessage(Message.obtain(screenHandler,
+                    ServerActivity.ServerHandler.UPDATE_RECEIVED,
+                    String.format("%d", ++count)));
+            // update log
+            screenHandler.sendMessage(Message.obtain(screenHandler,
+                    ServerActivity.ServerHandler.APPEND_LOG, newMemo.printMemo()));
             // add to queue
-            synchronized (mQueue) {
+            /*synchronized (mQueue) {
                 while (mQueue.size() == queueSize) {
                     mQueue.wait();
                 }
@@ -47,8 +53,8 @@ public class AndroidTcpServerSingleRunnable extends TcpSenderRunnable {
             mQueue.add(newMemo);
             synchronized (mQueue) {
                 mQueue.notify();
-            }
-        } catch (ClassNotFoundException | IOException | InterruptedException e) {
+            }*/
+        } catch (ClassNotFoundException | IOException e) { //ClassNotFoundException | IOException | InterruptedException e
             screenHandler.sendMessage(Message.obtain(screenHandler,
                     ServerActivity.ServerHandler.APPEND_LOG, "Error:" + e.getMessage()));
         }

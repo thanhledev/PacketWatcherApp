@@ -46,22 +46,34 @@ public class AndroidAutoUdpClientRunnable implements Runnable {
                         serverAddr, serverPort);
                 // send packet
                 udpSocket.send(packet);
-                // update status label
-                screenHandler.sendMessage(Message.obtain(screenHandler,
-                        AutoClientActivity.AutoClientHandler.UPDATE_STATUS,
-                        String.format("Sending packet#%d successfully.Remain %d", i, sendingPacket - i)));
 
-                Thread.sleep(5);
+                //update statistics
+                screenHandler.sendMessage(Message.obtain(screenHandler,
+                        AutoClientActivity.AutoClientHandler.UPDATE_SENT,
+                        String.format("%d", i)));
+
+                screenHandler.sendMessage(Message.obtain(screenHandler,
+                        AutoClientActivity.AutoClientHandler.UPDATE_REMAIN,
+                        String.format("%d", sendingPacket - i)));
+
+                // update status label
+                /*screenHandler.sendMessage(Message.obtain(screenHandler,
+                        AutoClientActivity.AutoClientHandler.UPDATE_STATUS,
+                        String.format("Sending packet#%d successfully.Remain %d", i, sendingPacket - i)));*/
+
+                // adjust to test
+                //Thread.sleep(5);
             }
 
             // close socket
             udpSocket.close();
 
             screenHandler.sendMessage(Message.obtain(screenHandler,
-                    AutoClientActivity.AutoClientHandler.UPDATE_STATUS, "Send packet to "
+                    AutoClientActivity.AutoClientHandler.UPDATE_STATUS, "Send "
+                            + sendingPacket + " udp packets to "
                             + serverIp + ":" + serverPort + " successfully!"));
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) { // IOException | InterruptedException e
             screenHandler.sendMessage(Message.obtain(screenHandler,
                     AutoClientActivity.AutoClientHandler.UPDATE_STATUS, "Error: " + e.getMessage()));
         }

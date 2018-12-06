@@ -21,6 +21,8 @@ public class AutoClientActivity extends AppCompatActivity {
     EditText serverPort;
     Spinner packetSpinner;
     EditText packetSent;
+    TextView sentPacket;
+    TextView remainPacket;
     Button sendBtn;
     TextView statusLabel;
 
@@ -41,6 +43,8 @@ public class AutoClientActivity extends AppCompatActivity {
         serverPort = findViewById(R.id.autoServerPort);
         packetSpinner = findViewById(R.id.autoPacketProtocol);
         packetSent = findViewById(R.id.autoSendingPacket);
+        sentPacket = findViewById(R.id.totalPacketSent);
+        remainPacket = findViewById(R.id.totalRemainPacket);
         sendBtn = findViewById(R.id.autoSendButton);
         statusLabel = findViewById(R.id.autoStatusLabel);
         statusLabel.setMovementMethod(new ScrollingMovementMethod());
@@ -91,10 +95,13 @@ public class AutoClientActivity extends AppCompatActivity {
     private void updateStatus(String message) {
         statusLabel.append(message + "\n");
     }
+    private void updateSent(String message) { sentPacket.setText(message); }
+    private void updateRemain(String message) { remainPacket.setText(message); }
 
     public static class AutoClientHandler extends Handler {
         public static final int UPDATE_STATUS = 0;
-
+        public static final int UPDATE_SENT = 1;
+        public static final int UPDATE_REMAIN = 2;
         private AutoClientActivity ownerActivity;
 
         public AutoClientHandler(AutoClientActivity owner) {
@@ -106,6 +113,12 @@ public class AutoClientActivity extends AppCompatActivity {
             switch (msg.what) {
                 case UPDATE_STATUS:
                     ownerActivity.updateStatus((String)msg.obj);
+                    break;
+                case UPDATE_SENT:
+                    ownerActivity.updateSent((String)msg.obj);
+                    break;
+                case UPDATE_REMAIN:
+                    ownerActivity.updateRemain((String)msg.obj);
                     break;
                 default:
                     super.handleMessage(msg);

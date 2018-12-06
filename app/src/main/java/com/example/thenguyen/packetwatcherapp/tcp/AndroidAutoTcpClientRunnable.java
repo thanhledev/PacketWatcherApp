@@ -49,10 +49,20 @@ public class AndroidAutoTcpClientRunnable implements Runnable {
                         lorem.getWords(5,15)));
                 outStream.flush();
 
+                //update statistics
                 screenHandler.sendMessage(Message.obtain(screenHandler,
+                        AutoClientActivity.AutoClientHandler.UPDATE_SENT,
+                        String.format("%d", i)));
+
+                screenHandler.sendMessage(Message.obtain(screenHandler,
+                        AutoClientActivity.AutoClientHandler.UPDATE_REMAIN,
+                        String.format("%d", sendingPacket - i)));
+
+                /*screenHandler.sendMessage(Message.obtain(screenHandler,
                         AutoClientActivity.AutoClientHandler.UPDATE_STATUS,
-                        String.format("Sending packet#%d successfully.Remain %d", i, sendingPacket - i)));
-                Thread.sleep(5);
+                        String.format("Sending packet#%d successfully.Remain %d", i, sendingPacket - i)));*/
+                // adjust to test
+                //Thread.sleep(5);
             }
 
             // send quit message
@@ -60,14 +70,15 @@ public class AndroidAutoTcpClientRunnable implements Runnable {
             outStream.flush();
 
             screenHandler.sendMessage(Message.obtain(screenHandler,
-                    AutoClientActivity.AutoClientHandler.UPDATE_STATUS,
-                    String.format("Sending %d packets successfully")));
+                    AutoClientActivity.AutoClientHandler.UPDATE_STATUS, "Send "
+                            + sendingPacket + " tcp packets to "
+                            + serverIp + ":" + serverPort + " successfully!"));
 
             // close socket
             outStream.close();
             tcpSocket.close();
 
-        } catch (IOException| InterruptedException e) {
+        } catch (IOException e) { //IOException| InterruptedException e
             screenHandler.sendMessage(Message.obtain(screenHandler,
                     AutoClientActivity.AutoClientHandler.UPDATE_STATUS, "Error: " + e.getMessage()));
         }

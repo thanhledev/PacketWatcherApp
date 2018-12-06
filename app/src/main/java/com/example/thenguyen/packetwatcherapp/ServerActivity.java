@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thenguyen.packetwatcherapp.printer.ServerPrinterThread;
@@ -28,7 +29,7 @@ public class ServerActivity extends AppCompatActivity {
     Spinner typeSpinner;
     EditText serverLog;
     EditText serverPort;
-
+    TextView receivedPackets;
     ServerHandler handler;
 
     private Thread serverThread;
@@ -54,6 +55,7 @@ public class ServerActivity extends AppCompatActivity {
         typeSpinner = findViewById(R.id.typeSpinner);
         serverLog = findViewById(R.id.serverLog);
         serverPort = findViewById(R.id.serverPort);
+        receivedPackets = findViewById(R.id.receivedPacket);
 
         // init handler
         handler = new ServerHandler(this);
@@ -96,9 +98,9 @@ public class ServerActivity extends AppCompatActivity {
     private void startServer() {
         if(!protocol.isEmpty() && !serverType.isEmpty()) {
             // init & start printerThread
-            printThread = new ServerPrinterThread(memoQueue, handler);
-            printThread.setDaemon(true);
-            printThread.start();
+            //printThread = new ServerPrinterThread(memoQueue, handler);
+            //printThread.setDaemon(true);
+            //printThread.start();
 
             // init & start serverThread
             if(protocol.equals("tcp")) {
@@ -122,7 +124,8 @@ public class ServerActivity extends AppCompatActivity {
     }
 
     private void stopServer() {
-        printThread.interrupt();
+        if(printThread != null)
+            printThread.interrupt();
 
         if(protocol.equals("tcp")) {
             serverThread.interrupt();
@@ -134,9 +137,10 @@ public class ServerActivity extends AppCompatActivity {
     private void appendServerLog(String log) {
         serverLog.append(log + "\n");
     }
-
+    private void updateReceivedPacket(String message) { receivedPackets.setText(message); }
     private void lockUI(boolean isLock) {
         serverPort.setEnabled(isLock? false : true);
+        typeSpinner.setEnabled(isLock? false : true);
         protocolSpinner.setEnabled(isLock? false : true);
         startBtn.setEnabled(isLock? false : true);
         stopBtn.setEnabled(isLock? true : false);
@@ -145,6 +149,7 @@ public class ServerActivity extends AppCompatActivity {
     public static class ServerHandler extends Handler {
         public static final int APPEND_LOG = 1;
         public static final int LOCK_UI = 2;
+        public static final int UPDATE_RECEIVED = 3;
 
         private ServerActivity ownerActivity;
 
@@ -158,9 +163,12 @@ public class ServerActivity extends AppCompatActivity {
                 case APPEND_LOG:
                     ownerActivity.appendServerLog((String)msg.obj);
                     break;
-                default:
+                case LOCK_UI:
                     ownerActivity.lockUI((boolean) msg.obj);
                     super.handleMessage(msg);
+                    break;
+                default:
+                    ownerActivity.updateReceivedPacket((String)msg.obj);
                     break;
             }
         }
